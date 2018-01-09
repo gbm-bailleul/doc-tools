@@ -1,11 +1,18 @@
 package com.worldline.gmts.td.documentation;
 
-import com.worldline.gmts.td.documentation.procs.ProcedureGenerator;
-import org.apache.commons.cli.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
+import com.worldline.gmts.td.documentation.procs.ProcedureGenerator;
 
 /**
  * Created by Guillaume Bailleul on 07/01/2018.
@@ -74,12 +81,13 @@ public class Runner {
         CommandLine command = null;
         try {
             command = parser.parse(options,args);
-
         } catch (ParseException e) {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp( "Runner "+PROCEDURE, options );
             System.exit(-2);
         }
+        if (command==null)
+            System.exit(-3);
 
 
         File workingDir =  command.hasOption("w")?
