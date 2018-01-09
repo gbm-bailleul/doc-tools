@@ -1,15 +1,24 @@
 package com.worldline.gmts.td.documentation.procs;
 
-import org.apache.commons.io.FileUtils;
-import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.OptionsBuilder;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
+
+import org.apache.commons.io.FileUtils;
+import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.OptionsBuilder;
 
 /**
  * Created by Guillaume Bailleul on 06/01/2018.
@@ -63,6 +72,11 @@ public class ProcedureGenerator {
 //		JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
 //		extensionRegistry.treeprocessor(new MyTreeProcessor(new HashMap<String, Object>()));
 
+        externalAttributes.put("pdf-stylesdir",workingDir.getAbsolutePath());
+        if (!externalAttributes.containsKey("pdf-style")) {
+            externalAttributes.put("pdf-style","custom");
+        }
+
         asciidoctor.convertFile(outputFile, OptionsBuilder.options()
                 .mkDirs(true)
                 .attributes(externalAttributes)
@@ -98,7 +112,7 @@ public class ProcedureGenerator {
             while (buffer!=null) {
                 if (buffer.startsWith(TAG_START)) {
                     // table first lines
-                    writer.write("[width=\"99%\",cols=\"1,1,1,10a,1\",options=header]\n");
+                    writer.write("[width=\"99%\",cols=\"1,1,1,10a,2\",options=header]\n");
                     writer.write("|=======\n");
                     writer.write("|step|actor|type|description|paraph\n");
                     // copy all until next TAG
