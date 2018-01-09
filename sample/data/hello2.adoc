@@ -10,6 +10,8 @@ Ben euh ...
 
 Voici la version {procversion} de la procédure
 
+Cette version a été modifiée via Gitlab
+
 == Fonctionnement des attributs
 
 
