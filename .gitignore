@@ -17,3 +17,9 @@ doc-processors/*.iml
 
 doc-proc-runner/*.iml
 doc-proc-runner/target
+
+docproc-maven-plugin/*.iml
+docproc-maven-plugin/target
+
+sample/*.iml
+sample/target
