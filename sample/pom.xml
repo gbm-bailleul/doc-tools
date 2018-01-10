@@ -20,8 +20,8 @@
 				<executions>
 					<execution>
 						<configuration>
-							<source>data/hello2.adoc</source>
-							<attrs>data/hello2.properties</attrs>
+							<source>data</source>
+							<attributes>data/main.properties</attributes>
 						</configuration>
 						<goals>
 							<goal>procedure</goal>

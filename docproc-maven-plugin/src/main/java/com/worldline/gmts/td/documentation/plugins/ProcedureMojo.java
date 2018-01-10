@@ -23,20 +23,18 @@ public class ProcedureMojo extends AbstractMojo {
 	@Parameter( property = "procedure.sources", required =  true)
 	private File source;
 
-	@Parameter( property = "procedure.properties", required =  false)
-	private File attrs;
+	@Parameter( property = "procedure.properties", required =  true)
+	private File attributes;
 
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		getLog().info("!!!!!!!!!!!!!!!! COIN COIN !!!!!!!!!!!!");
-
 		ProcedureGenerator generator = new ProcedureGenerator();
 		generator.setBackend("pdf");
 	 	try {
-			generator.generate(
+			generator.generateDirectory(
 					source,
-					attrs,
+					attributes,
 					target,
 					working
 			);

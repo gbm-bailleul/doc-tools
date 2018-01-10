@@ -83,4 +83,23 @@ GOTOGOTO() *(1)
 
 %%end
 
+== Seconde lot de la procédure
 
+Voici du texte placé entre deux phases du tableau.
+Dans le prochain tableau, la numérotation continue et ne reprend pas à 1.
+
+
+%%procedure [Act1 Act]
+
+Premiere action effectuée par Act1
+
+%% [Act1]
+
+Seconde action, effectuée par Act1, le type d'action est celui par défaut
+
+%% [Act2 Sec]
+
+Troisième action par Act2, le type d'action est Check
+Ma seconde ligne de proc
+
+%%end

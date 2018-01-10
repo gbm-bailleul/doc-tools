@@ -11,10 +11,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.apache.commons.io.FileUtils;
 import org.asciidoctor.Asciidoctor;
@@ -36,20 +33,42 @@ public class ProcedureGenerator {
     }
 
 
-    protected Map<String,Object> loadAttributes (File attributes) throws IOException {
+    protected Map<String,Object> loadAttributes (File attributes, File mainAttributes) throws IOException {
         Map<String,Object> result = new HashMap<>();
-        if (attributes!=null) {
-            Properties props = new Properties();
-            props.load(new FileInputStream(attributes));
-            for (Map.Entry<Object,Object> entry: props.entrySet()) {
-                result.put(entry.getKey().toString(),entry.getValue());
+        for (File f : new File [] {mainAttributes,attributes}) {
+            if (f!=null && f.exists()) {
+                Properties props = new Properties();
+                props.load(new FileInputStream(f));
+                for (Map.Entry<Object,Object> entry: props.entrySet()) {
+                    result.put(entry.getKey().toString(),entry.getValue());
+                }
             }
         }
         return result;
     }
 
-    public void generate (File source, File attributes,File outputDir, File workingDir) throws IOException {
-        Map<String,Object> externalAttributes = loadAttributes(attributes);
+    public void generate (File source, File attributes, File outputDir, File workingDir) throws IOException {
+        generate(source,attributes,null,outputDir,workingDir);
+    }
+
+
+    public void generateDirectory (File sourceDir, File mainAttributes, File outputDir, File workingDir) throws IOException {
+        if (!sourceDir.exists() || !sourceDir.isDirectory())
+            throw new IOException("Invalid sourceDir value: "+sourceDir);
+
+        Collection<File> sources = FileUtils.listFiles(sourceDir,new String []{"adoc"},true);
+        for (File source: sources) {
+            // calculate default properties
+            int pos = source.getAbsolutePath().lastIndexOf(".");
+            String propsName = source.getAbsolutePath().substring(0,pos)+".properties";
+            File sourceAttr = new File (propsName);
+            // generate
+            generate(source,sourceAttr,mainAttributes,outputDir,workingDir);
+        }
+    }
+
+    public void generate (File source, File attributes, File mainAttributes, File outputDir, File workingDir) throws IOException {
+        Map<String,Object> externalAttributes = loadAttributes(attributes,mainAttributes);
 
         File outputFile = new File(workingDir,source.getName());
 
@@ -69,8 +88,6 @@ public class ProcedureGenerator {
         }
 
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
-//		JavaExtensionRegistry extensionRegistry = asciidoctor.javaExtensionRegistry();
-//		extensionRegistry.treeprocessor(new MyTreeProcessor(new HashMap<String, Object>()));
 
         externalAttributes.put("pdf-stylesdir",workingDir.getAbsolutePath());
         if (!externalAttributes.containsKey("pdf-style")) {
@@ -82,8 +99,6 @@ public class ProcedureGenerator {
                 .attributes(externalAttributes)
                 .backend(backend)
                 .toDir(outputDir));
-
-
     }
 
     /**
