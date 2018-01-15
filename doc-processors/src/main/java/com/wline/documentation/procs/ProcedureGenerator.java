@@ -111,6 +111,8 @@ public class ProcedureGenerator {
 
         public static final String TAG_START = "%%procedure";
 
+        public static final String TAG_SECRET_START = "%%secret";
+
         public static final String TAG = "%%";
 
         public static final String TAG_END = "%%end";
@@ -129,17 +131,9 @@ public class ProcedureGenerator {
             String buffer = nextLine();
             while (buffer!=null) {
                 if (buffer.startsWith(TAG_START)) {
-                    // table first lines
-                    writer.write("[width=\"99%\",cols=\"1,1,1,10a,2\",options=header]\n");
-                    writer.write("|=======\n");
-                    writer.write("|step|actor|type|description|paraph\n");
-                    // copy all until next TAG
-                    while (!buffer.startsWith(TAG_END)) {
-                        buffer = procedureStep(writer,buffer);
-                    }
-                    // table end
-                    writer.write("|=======\n");
-                    buffer = nextLine();
+                    buffer = procedure(writer, buffer);
+                } else if (buffer.startsWith(TAG_SECRET_START)) {
+                    buffer = secret(writer,buffer);
                 } else {
                     writer.write(buffer);
                     writer.write("\n");
@@ -150,6 +144,55 @@ public class ProcedureGenerator {
             reader.get().close();
 
         }
+
+        protected String procedure (Writer writer, String buffer) throws IOException, ParseException {
+            // table first lines
+            writer.write("[width=\"99%\",cols=\"1,1,1,10a,2\",options=header]\n");
+            writer.write("|=======\n");
+            writer.write("|step|actor|type|description|paraph\n");
+            // copy all until next TAG
+            while (!buffer.startsWith(TAG_END)) {
+                buffer = procedureStep(writer,buffer);
+            }
+            // table end
+            writer.write("|=======\n");
+            return nextLine();
+        }
+
+        protected String secret (Writer writer, String buffer) throws IOException, ParseException {
+            // table first lines
+            writer.write("[width=\"99%\",cols=\"1,8a,2a\",options=header]\n");
+            writer.write("|=======\n");
+            writer.write("|Porteur|Description|Valeur\n");
+            // copy all until next TAG
+            while (!buffer.startsWith(TAG_END)) {
+                buffer = secretStep(writer,buffer);
+            }
+            // table end
+            writer.write("|=======\n");
+            return nextLine();
+        }
+
+        protected String secretStep (Writer writer, String buffer) throws IOException,ParseException {
+            StepInfo si = parseStepInfo(buffer);
+            buffer = nextLine();
+
+            writer.write("|"+si.actor);
+            writer.write("|");
+
+            writer.write(buffer);
+            buffer = nextLine();
+            while (!buffer.startsWith(TAG)) {
+                writer.write(buffer);
+                writer.write("\n");
+                buffer = nextLine();
+            }
+            writer.write("|"+si.action);
+            // new table line
+            writer.write("\n");
+            return buffer;
+        }
+
 
         protected String procedureStep (Writer writer, String buffer) throws IOException,ParseException {
             // check if we are in detail view
@@ -177,14 +220,12 @@ public class ProcedureGenerator {
             writer.write("\n");
             // new table line
             writer.write("\n");
-//            writer.write("\n");
             return buffer;
         }
 
         private String procedureStepDetail(Writer writer, String buffer) throws IOException {
             buffer = nextLine();
             writer.write("5+a|");
-    //        writer.write("\n");
             writer.write(buffer);
             writer.write("\n");
             buffer = nextLine();
@@ -193,8 +234,6 @@ public class ProcedureGenerator {
                 writer.write("\n");
                 buffer = nextLine();
             }
-    //        writer.write("|{nbsp}");
-    //        writer.write("\n");
             // new table line
             writer.write("\n");
             writer.write("\n");

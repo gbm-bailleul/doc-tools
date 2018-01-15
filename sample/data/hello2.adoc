@@ -80,6 +80,26 @@ GOTO qui sert a rien
 GOTOGOTO() *(1)
 ....
 
+%% [SH]
+
+Entrer le code pin de l’HSM Adyton
+
+====
+`Identifiant secret p : {codepin_secret_identifier}`
+====
+
+%% [AM]
+
+Sauvegarder les modifications du fichier.
+
+%% [AM]
+`
+Aller dans le répertoire des conteneurs de clefs :
+
+====
+`cd {key_container_directory}`
+====
+
 
 %%end
 

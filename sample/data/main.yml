@@ -13,4 +13,7 @@ documents:
     attributes:
       value_from_conf: external value
       doc_sub_title: une variable
+      codepin_secret_identifier: 1234
+      keytool: openssl
+      key_container_directory: /coin/coin
 
