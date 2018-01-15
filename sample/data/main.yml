@@ -1,0 +1,16 @@
+description:
+  name: the main name
+globals:
+  main_ismp: 12345645
+documents:
+  proc1:
+    template: hello1.adoc
+    attributes:
+      value_from_conf: external value for hello1
+      doc_sub_title: hello 1
+  proc2:
+    template: hello2.adoc
+    attributes:
+      value_from_conf: external value
+      doc_sub_title: une variable
+

@@ -51,24 +51,27 @@ public class ProcedureGenerator {
         generate(source,attributes,null,outputDir,workingDir);
     }
 
+    public void generateFromDescription(File description, File dataDir, File outputDir, File workingDir) throws IOException {
+        if (!description.exists() || !description.isFile())
+            throw new IOException("Invalid description file path: "+description);
+        ProceduresDescriptor descriptor = ProceduresDescriptor.load(description);
 
-    public void generateDirectory (File sourceDir, File mainAttributes, File outputDir, File workingDir) throws IOException {
-        if (!sourceDir.exists() || !sourceDir.isDirectory())
-            throw new IOException("Invalid sourceDir value: "+sourceDir);
-
-        Collection<File> sources = FileUtils.listFiles(sourceDir,new String []{"adoc"},true);
-        for (File source: sources) {
-            // calculate default properties
-            int pos = source.getAbsolutePath().lastIndexOf(".");
-            String propsName = source.getAbsolutePath().substring(0,pos)+".properties";
-            File sourceAttr = new File (propsName);
-            // generate
-            generate(source,sourceAttr,mainAttributes,outputDir,workingDir);
+        for (String docid : descriptor.getDocumentsKey()) {
+            File template = new File (dataDir, descriptor.getTemplate(docid));
+            Map<String,Object> attributes = descriptor.getAttributes(docid,true);
+            generate(template,attributes,outputDir,workingDir);
         }
+
     }
+
 
     public void generate (File source, File attributes, File mainAttributes, File outputDir, File workingDir) throws IOException {
         Map<String,Object> externalAttributes = loadAttributes(attributes,mainAttributes);
+        generate(source,externalAttributes,outputDir,workingDir);
+
+    }
+
+    public void generate (File source, Map<String,Object> attributes, File outputDir, File workingDir) throws IOException {
 
         File outputFile = new File(workingDir,source.getName());
 
@@ -89,14 +92,14 @@ public class ProcedureGenerator {
 
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
-        externalAttributes.put("pdf-stylesdir",workingDir.getAbsolutePath());
-        if (!externalAttributes.containsKey("pdf-style")) {
-            externalAttributes.put("pdf-style","custom");
+        attributes.put("pdf-stylesdir",workingDir.getAbsolutePath());
+        if (!attributes.containsKey("pdf-style")) {
+            attributes.put("pdf-style","custom");
         }
 
         asciidoctor.convertFile(outputFile, OptionsBuilder.options()
                 .mkDirs(true)
-                .attributes(externalAttributes)
+                .attributes(attributes)
                 .backend(backend)
                 .toDir(outputDir));
     }

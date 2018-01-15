@@ -23,21 +23,20 @@ public class ProcedureMojo extends AbstractMojo {
 	@Parameter( property = "procedure.sources", required =  true)
 	private File source;
 
-	@Parameter( property = "procedure.properties", required =  true)
-	private File attributes;
+	@Parameter( property = "procedure.descriptor", required =  true)
+	private File descriptor;
 
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		ProcedureGenerator generator = new ProcedureGenerator();
 		generator.setBackend("pdf");
-	 	try {
-			generator.generateDirectory(
+		try {
+			generator.generateFromDescription(
+					descriptor,
 					source,
-					attributes,
 					target,
-					working
-			);
+					working);
 		} catch (IOException e) {
 			throw new MojoFailureException("Failed to generate procedure", e);
 		}

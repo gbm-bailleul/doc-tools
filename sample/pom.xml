@@ -22,6 +22,7 @@
 						<configuration>
 							<source>data</source>
 							<attributes>data/main.properties</attributes>
+							<descriptor>data/main.yml</descriptor>
 						</configuration>
 						<goals>
 							<goal>procedure</goal>
