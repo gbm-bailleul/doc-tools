@@ -12,6 +12,17 @@ Voici la version {procversion} de la procédure
 
 Cette version a été modifiée via Gitlab
 
+<<<
+
+== Liste des secrets
+
+%%secret [SH {codepin_secret_identifier}]
+Eul secret kifo pas perdre
+%% [SH {codepin_secret_identifier}]
+Un aut'secret kifo pas perdre
+%%end
+
+
 == Fonctionnement des attributs
 
 
