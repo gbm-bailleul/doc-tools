@@ -1,4 +1,4 @@
-package com.worldline.gmts.td.documentation;
+package com.wline.documentation;
 
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.extension.JavaExtensionRegistry;

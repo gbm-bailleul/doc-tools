@@ -1,4 +1,4 @@
-package com.worldline.gmts.td.documentation.procs;
+package com.wline.documentation.procs;
 
 import java.io.BufferedReader;
 import java.io.File;

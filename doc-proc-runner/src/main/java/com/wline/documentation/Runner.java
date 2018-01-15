@@ -1,4 +1,4 @@
-package com.worldline.gmts.td.documentation;
+package com.wline.documentation;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import com.worldline.gmts.td.documentation.procs.ProcedureGenerator;
+import com.wline.documentation.procs.ProcedureGenerator;
 
 /**
  * Created by Guillaume Bailleul on 07/01/2018.

@@ -2,7 +2,7 @@ package asciidoctor;
 
 import java.io.File;
 
-import com.worldline.gmts.td.documentation.procs.ProcedureGenerator;
+import com.wline.documentation.procs.ProcedureGenerator;
 
 public class TestRunner {
 

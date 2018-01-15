@@ -1,4 +1,4 @@
-package com.worldline.gmts.td.documentation.plugins;
+package com.wline.documentation.plugins;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import com.worldline.gmts.td.documentation.procs.ProcedureGenerator;
+import com.wline.documentation.procs.ProcedureGenerator;
 
 @Mojo(name = "procedure")
 public class ProcedureMojo extends AbstractMojo {
