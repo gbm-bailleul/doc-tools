@@ -113,6 +113,8 @@ public class ProcedureGenerator {
 
         public static final String TAG_SECRET_START = "%%secret";
 
+        public static final String TAG_CARTRIDGE = "%%cartridge";
+
         public static final String TAG = "%%";
 
         public static final String TAG_END = "%%end";
@@ -133,7 +135,9 @@ public class ProcedureGenerator {
                 if (buffer.startsWith(TAG_START)) {
                     buffer = procedure(writer, buffer);
                 } else if (buffer.startsWith(TAG_SECRET_START)) {
-                    buffer = secret(writer,buffer);
+                    buffer = secret(writer, buffer);
+                } else if (buffer.startsWith(TAG_CARTRIDGE)) {
+                    buffer = cartridge(writer, buffer);
                 } else {
                     writer.write(buffer);
                     writer.write("\n");
@@ -144,6 +148,20 @@ public class ProcedureGenerator {
             reader.get().close();
 
         }
+
+        protected String cartridge (Writer writer, String buffer) throws IOException, ParseException {
+            writer.write("[width=\"80%\",cols=\"1a,1,1\",options=header]\n");
+            writer.write("|=======\n");
+            writer.write("|Maître de Cérémonie|Auditeur Interne|Opérateur d’enregistrement\n");
+            writer.write("| {nbsp}\n{nbsp}\n{nbsp}\n{nbsp}\n{nbsp}\n{nbsp}\n{nbsp}\n{nbsp}\n{nbsp}\n{nbsp}\n");
+            writer.write("| \n");
+            writer.write("| \n");
+            writer.write("|=======\n");
+            writer.write("\n");
+            writer.write("<<<");
+            return nextLine();
+        }
+
 
         protected String procedure (Writer writer, String buffer) throws IOException, ParseException {
             // table first lines
