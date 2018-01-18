@@ -37,6 +37,9 @@ public class Runner {
             case CallCanvas.KEY:
                 CallCanvas.call(Arrays.copyOfRange(args,1,args.length));
                 break;
+            case CallAsciidoctor.KEY:
+                CallAsciidoctor.call(Arrays.copyOfRange(args,1,args.length));
+                break;
             default:
                 System.err.println("Invalid key parameter: "+ args[0]);
         }

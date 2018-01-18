@@ -20,7 +20,6 @@
 		<module>doc-proc-runner</module>
 		<module>docproc-maven-plugin</module>
 		<module>sample</module>
-		<!--<module>samples</module>-->
 	</modules>
 
 
