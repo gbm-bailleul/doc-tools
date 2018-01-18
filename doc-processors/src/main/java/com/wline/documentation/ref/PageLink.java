@@ -44,7 +44,7 @@ public class PageLink {
 
 	@Override
 	public String toString() {
-		return this.reference + ";" + this.description + ";" + this.target ;
+		return this.reference + ";" + this.description + ";" + this.target + ";" + this.anchor  ;
 	}
 
 	public static PageLink parseCsvLine(String line) {

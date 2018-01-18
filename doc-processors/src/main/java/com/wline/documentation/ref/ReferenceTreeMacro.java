@@ -52,14 +52,15 @@ public class ReferenceTreeMacro
 					for (PageLink pageLink : links) {
 						Map<Object, Object> options = new HashMap<>();
 						options.put("type", ":link");
-						options.put("target", pageLink.getTarget());
+						String tg = pageLink.getTarget()+
+								(pageLink.getAnchor()!=null?("#"+pageLink.getAnchor()):"");
+
+						options.put("target", tg);
+
 						String s = createInline(
 								section,
 								"anchor",
-								Arrays.asList(
-										pageLink.getTarget(),
-										pageLink.getAnchor()!=null?pageLink.getAnchor():""
-								),
+								Arrays.asList(tg),
 								section.getAttributes(),
 								options
 						).convert();
@@ -68,7 +69,7 @@ public class ReferenceTreeMacro
 								"listing",
 								Arrays.asList(pageLink.getDescription(),s),
 								section.getAttributes(),
-								options);
+								new HashMap<>());
 						section.getBlocks().add(0,nb);
 					}
 				}
