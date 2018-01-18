@@ -47,17 +47,26 @@ public class ReferenceTreeMacro
 			if (section.getAttributes().containsKey("reference")) {
 				String target = section.getAttr("reference").toString();
 				System.out.println("  Found reference : "+target);
-				List<PageLink> anchors = links.get(target);
-				if (anchors != null && anchors.size()>0) {
-					for (PageLink anchor : anchors) {
+				List<PageLink> links = this.links.get(target);
+				if (links != null && links.size()>0) {
+					for (PageLink pageLink : links) {
 						Map<Object, Object> options = new HashMap<>();
 						options.put("type", ":link");
-						options.put("target", anchor.getTarget());
-						String s = createInline(section,"anchor",Arrays.asList(anchor.getTarget()),section.getAttributes(),options).convert();
+						options.put("target", pageLink.getTarget());
+						String s = createInline(
+								section,
+								"anchor",
+								Arrays.asList(
+										pageLink.getTarget(),
+										pageLink.getAnchor()!=null?pageLink.getAnchor():""
+								),
+								section.getAttributes(),
+								options
+						).convert();
 						Block nb = createBlock(
 								document,
 								"listing",
-								Arrays.asList(anchor.getDescription(),s),
+								Arrays.asList(pageLink.getDescription(),s),
 								section.getAttributes(),
 								options);
 						section.getBlocks().add(0,nb);

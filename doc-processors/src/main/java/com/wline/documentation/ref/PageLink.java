@@ -17,14 +17,21 @@ public class PageLink {
 
 	private String target;
 
-	public PageLink(String reference, String description, String target) {
+	private String anchor;
+
+	public PageLink(String reference, String description, String target, String anchor) {
 		this.reference = reference;
 		this.description = description;
 		this.target = target;
+		this.anchor = anchor;
 	}
 
 	public String getDescription() {
 		return description;
+	}
+
+	public String getAnchor() {
+		return anchor;
 	}
 
 	public String getTarget() {
@@ -42,12 +49,12 @@ public class PageLink {
 
 	public static PageLink parseCsvLine(String line) {
 		String[] elements = line.split(";");
-		if (elements.length != 3) {
+		if (elements.length < 3) {
 			throw new IllegalArgumentException("Csv has not the correct format");
-		}
-		PageLink pl = new PageLink(elements[0], elements[1], elements[2]);
-		return pl;
-
+		} else if (elements.length == 3)
+			return new PageLink(elements[0], elements[1], elements[2],null);
+		else
+			return new PageLink(elements[0], elements[1], elements[2],elements[3]);
 	}
 
 	public static Map<String, List<PageLink>> loadCsvFile(File csvFile) throws IOException {
