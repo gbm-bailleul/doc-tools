@@ -1,6 +1,6 @@
 package com.wline.documentation;
 
-import com.wline.documentation.ref.ReferenceTreeMacro;
+import com.wline.documentation.ref.RequirementMacro;
 import org.apache.commons.cli.*;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.OptionsBuilder;
@@ -64,7 +64,8 @@ public class CallAsciidoctor {
 
         Asciidoctor doctor = Asciidoctor.Factory.create();
         JavaExtensionRegistry jer = doctor.javaExtensionRegistry();
-        jer.treeprocessor(new ReferenceTreeMacro(blockMacroOptions));
+//        jer.treeprocessor(new ReferenceTreeMacro(blockMacroOptions));
+        jer.blockMacro(new RequirementMacro("req",blockMacroOptions));
 
         doctor.convertFile(
                 new File(command.getOptionValue("s")),
@@ -72,6 +73,7 @@ public class CallAsciidoctor {
                 .mkDirs(true)
                 .attributes(new HashMap<>())
                 .backend("html5")
+                        .backend("pdf")
                 .toDir(new File(command.getOptionValue("t"))));
 
 

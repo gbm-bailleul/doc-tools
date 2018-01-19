@@ -44,7 +44,13 @@ public class PageLink {
 
 	@Override
 	public String toString() {
-		return this.reference + ";" + this.description + ";" + this.target + ";" + this.anchor  ;
+		StringBuilder sb = new StringBuilder();
+		sb.append(reference).append(';');
+		sb.append(description).append(';');
+		sb.append(target);
+		if (anchor!=null)
+			sb.append(';').append(anchor);
+		return sb.toString();
 	}
 
 	public static PageLink parseCsvLine(String line) {
