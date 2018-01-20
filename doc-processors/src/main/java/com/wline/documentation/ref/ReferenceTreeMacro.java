@@ -1,9 +1,6 @@
 package com.wline.documentation.ref;
 
-import org.asciidoctor.ast.AbstractBlock;
-import org.asciidoctor.ast.Block;
-import org.asciidoctor.ast.Document;
-import org.asciidoctor.ast.Section;
+import org.asciidoctor.ast.*;
 import org.asciidoctor.extension.Treeprocessor;
 
 import java.io.File;
@@ -13,27 +10,35 @@ import java.util.*;
 public class ReferenceTreeMacro
 		extends Treeprocessor {
 
-
 	private Map<String, List<PageLink>> links;
+
+	private boolean initialized = false;
+
 
 	public ReferenceTreeMacro(Map<String, Object> config) throws RuntimeException {
 		super(config);
-
-		if (config.get("csv")==null)
-			throw new RuntimeException("Missing mandatory property 'csv");
-		File csvFile = (File)config.get("csv");
-		if (!csvFile.exists())
-			throw new RuntimeException("Expected csv file doest not exists");
-
-		try {
-			this.links = PageLink.loadCsvFile(csvFile);
-		} catch (IOException e) {
-			System.err.println("Problem when reading csv file : " + e.getMessage());
-		}
 	}
+
+	private void initialize (DocumentRuby document) throws RuntimeException{
+		if (document.getAttributes().get("csv")==null)
+			throw new RuntimeException("Missing mandatory property 'csv'");
+		File csvFile = new File((String)document.getAttributes().get("csv"));
+		File csvDir = new File((String)document.getAttr("references-dir"));
+		try {
+			this.links = PageLink.loadCsvFile(csvDir,csvFile);
+		} catch (IOException e) {
+			throw new RuntimeException("Problem when reading csv file : " + e.getMessage());
+		}
+		initialized = true;
+	}
+
 
 	@Override
 	public Document process(Document document) {
+		// init
+		if (!initialized) {
+			initialize(document);
+		}
 		for (AbstractBlock block: document.getBlocks()) {
 			process(document, block);
 		}
@@ -48,6 +53,7 @@ public class ReferenceTreeMacro
 				String target = section.getAttr("reference").toString();
 				System.out.println("  Found reference : "+target);
 				List<PageLink> links = this.links.get(target);
+				System.out.println("    links: "+(links!=null?links.size():0));
 				if (links != null && links.size()>0) {
 					for (PageLink pageLink : links) {
 						Map<Object, Object> options = new HashMap<>();

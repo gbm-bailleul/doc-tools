@@ -2,6 +2,7 @@ package com.wline.documentation.ref;
 
 import org.apache.commons.io.FileUtils;
 import org.asciidoctor.ast.AbstractBlock;
+import org.asciidoctor.ast.DocumentRuby;
 import org.asciidoctor.extension.BlockMacroProcessor;
 
 import java.io.File;
@@ -15,17 +16,26 @@ public class RequirementMacro
 
 	private File csvFile ;
 
+	private boolean initialized = false;
+
 	public RequirementMacro(String macroName, Map<String, Object> config) {
 		super(macroName, config);
-		if (config.get("csv")==null)
-			throw new RuntimeException("Missing mandatory property 'csv'");
-		csvFile = (File)config.get("csv");
-		FileUtils.deleteQuietly(this.csvFile);
+	}
 
+	private void initialize (DocumentRuby document) {
+		if (document.getAttributes().get("csv")==null)
+			throw new RuntimeException("Missing mandatory property 'csv'");
+		csvFile = new File((String)document.getAttributes().get("csv"));
+		FileUtils.deleteQuietly(csvFile);
+		initialized = true;
 	}
 
 	@Override
-	protected Object process(AbstractBlock parent, String target, Map<String, Object> attributes) {
+	public Object process(AbstractBlock parent, String target, Map<String, Object> attributes) {
+		if (!initialized) {
+			initialize(parent.getDocument());
+		}
+
 		// TODO maybe ugly; list of book format ? epub...
 		boolean isBook =  "pdf".equals(parent.getDocument().getAttr("backend"));
 

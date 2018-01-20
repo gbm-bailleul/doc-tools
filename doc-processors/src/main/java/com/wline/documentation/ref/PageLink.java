@@ -4,10 +4,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PageLink {
 
@@ -63,17 +60,31 @@ public class PageLink {
 			return new PageLink(elements[0], elements[1], elements[2],elements[3]);
 	}
 
-	public static Map<String, List<PageLink>> loadCsvFile(File csvFile) throws IOException {
+	public static Map<String, List<PageLink>> loadCsvFile(File csvDir,File csvFile) throws IOException {
 		Map<String, List<PageLink>> result = new HashMap<>();
-		List<String> lines = FileUtils.readLines(csvFile);
-		for (String line : lines) {
-			PageLink pl = PageLink.parseCsvLine(line);
-			if (!result.containsKey(pl.getReference())) {
-				result.put(pl.getReference(), new LinkedList<>());
+		Collection<File> files  = csvDir!=null?FileUtils.listFiles(csvDir, new String []{"csv"},false):new ArrayList<>();
+		files.add(csvFile);
+		for (File file: files) {
+			System.out.println(">> loading references from: "+file.getAbsolutePath());
+			List<String> lines = FileUtils.readLines(file);
+			for (String line : lines) {
+				System.out.println("   > "+line);
+				PageLink pl = PageLink.parseCsvLine(line);
+				if (!result.containsKey(pl.getReference())) {
+					result.put(pl.getReference(), new LinkedList<>());
+				}
+				result.get(pl.getReference()).add(pl);
 			}
-			result.get(pl.getReference()).add(pl);
 		}
 		return result;
+	}
+
+
+
+
+
+	public static Map<String, List<PageLink>> loadCsvFile(File csvFile) throws IOException {
+		return loadCsvFile(null,csvFile);
 	}
 
 }
