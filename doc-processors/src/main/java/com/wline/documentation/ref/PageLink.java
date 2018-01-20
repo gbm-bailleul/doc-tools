@@ -60,10 +60,9 @@ public class PageLink {
 			return new PageLink(elements[0], elements[1], elements[2],elements[3]);
 	}
 
-	public static Map<String, List<PageLink>> loadCsvFile(File csvDir,File csvFile) throws IOException {
+	public static Map<String, List<PageLink>> loadCsvFile(File csvDir) throws IOException {
 		Map<String, List<PageLink>> result = new HashMap<>();
 		Collection<File> files  = csvDir!=null?FileUtils.listFiles(csvDir, new String []{"csv"},false):new ArrayList<>();
-		files.add(csvFile);
 		for (File file: files) {
 			System.out.println(">> loading references from: "+file.getAbsolutePath());
 			List<String> lines = FileUtils.readLines(file);
@@ -77,14 +76,6 @@ public class PageLink {
 			}
 		}
 		return result;
-	}
-
-
-
-
-
-	public static Map<String, List<PageLink>> loadCsvFile(File csvFile) throws IOException {
-		return loadCsvFile(null,csvFile);
 	}
 
 }

@@ -20,12 +20,9 @@ public class ReferenceTreeMacro
 	}
 
 	private void initialize (DocumentRuby document) throws RuntimeException{
-		if (document.getAttributes().get("csv")==null)
-			throw new RuntimeException("Missing mandatory property 'csv'");
-		File csvFile = new File((String)document.getAttributes().get("csv"));
 		File csvDir = new File((String)document.getAttr("references-dir"));
 		try {
-			this.links = PageLink.loadCsvFile(csvDir,csvFile);
+			this.links = PageLink.loadCsvFile(csvDir);
 		} catch (IOException e) {
 			throw new RuntimeException("Problem when reading csv file : " + e.getMessage());
 		}

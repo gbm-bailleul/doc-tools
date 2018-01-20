@@ -11,9 +11,34 @@
 
     <artifactId>ref-sample</artifactId>
 
+    <properties>
+        <working.references.dir>${build.directory}/working/references</working.references.dir>
+    </properties>
+
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>Copy external references files</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <outputDirectory>${working.references.dir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>docs/references</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
@@ -43,7 +68,7 @@
                                 </extension>
                             </extensions>
                             <attributes>
-                                <csv>${build.directory}/references.csv</csv>
+                                <csv>${working.references.dir}/${artifactId}.csv</csv>
                             </attributes>
                         </configuration>
                     </execution>
@@ -63,7 +88,7 @@
                             </extensions>
                             <attributes>
                                 <csv>${build.directory}/references.csv</csv>
-                                <references-dir>${project.basedir}/docs/references</references-dir>
+                                <references-dir>${working.references.dir}</references-dir>
                             </attributes>
                         </configuration>
                     </execution>
