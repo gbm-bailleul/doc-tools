@@ -257,15 +257,33 @@ footer:
   recto:
     #columns: "<50% =0% >50%"
     right:
-      content: '{page-number}'
+      content: '{page-number} / {page-count}'
+      #content: '{page-number}'
       #content: '{section-or-chapter-title} | {page-number}'
       #content: '{document-title} | {page-number}'
-    #center:
+    center:
+      content: '{document-title}'
     #  content: '{page-number}'
   verso:
     #columns: $footer_recto_columns
     left:
       content: $footer_recto_right_content
       #content: '{page-number} | {chapter-title}'
-    #center:
+    center:
+      content: $footer_recto_center_content
     #  content: '{page-number}'
+
+header:
+  height: 0.75in
+  line_height: 1
+  recto:
+    left:
+    # TODO trouver une meilleur clé
+      content: '{distribution}'
+    center:
+      content: '(C) Worldline -- {main_ismp}, {docdate}'
+  verso:
+    left:
+      content: $header_recto_left_content
+    center:
+      content: $header_recto_center_content

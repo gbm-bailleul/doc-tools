@@ -8,6 +8,7 @@ documents:
     attributes:
       value_from_conf: external value for hello1
       doc_sub_title: hello 1
+      distribution: Confidentiel
   proc2:
     template: hello2.adoc
     attributes:
@@ -16,4 +17,4 @@ documents:
       codepin_secret_identifier: 1234
       keytool: openssl
       key_container_directory: /coin/coin
-
+      distribution: A usage interne
