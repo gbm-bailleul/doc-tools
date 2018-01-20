@@ -1,0 +1,91 @@
+= Requirements
+
+== Abstract
+
+Quare talis improborum consensio non modo excusatione amicitiae tegenda
+non est sed potius supplicio omni vindicanda est, ut ne quis concessum
+putet amicum vel bellum patriae inferentem sequi; quod quidem, ut res ire
+coepit, haud scio an aliquando futurum sit. Mihi autem non minori curae est,
+qualis res publica post mortem meam futura, quam qualis hodie sit.
+
+Postremo ad id indignitatis est ventum, ut cum peregrini ob formidatam haut
+ita dudum alimentorum inopiam pellerentur ab urbe praecipites, sectatoribus
+disciplinarum liberalium inpendio paucis sine respiratione ulla extrusis,
+tenerentur minimarum adseclae veri, quique id simularunt ad tempus, et tria
+milia saltatricum ne interpellata quidem cum choris totidemque remanerent
+magistris.
+
+== References
+
+[reference="1.1"]
+=== External web site example
+
+
+Cf document coin
+
+....
+Link to external documentations
+....
+
+[reference="1.2"]
+=== Github of documentation project
+
+Cf document coin
+
+....
+Link to external documentations
+....
+
+
+[reference="3.1"]
+=== Chapitre 5.1 Dossier de description technique du système (DDTS)
+
+Cf. 2.2.4 – Dossier technique, page 12
+
+
+....
+Ipsam vero urbem Byzantiorum fuisse refertissimam atque ornatissimam signis
+quis ignorat? Quae illi, exhausti sumptibus bellisque maximis, cum omnis
+Mithridaticos impetus totumque Pontum armatum affervescentem in Asiam atque
+erumpentem, ore repulsum et cervicibus interclusum suis sustinerent, tum,
+inquam, Byzantii et postea signa illa et reliqua urbis ornanemta sanctissime
+custodita tenuerunt.
+....
+
+....
+Quare talis improborum consensio non modo excusatione amicitiae tegenda
+non est sed potius supplicio omni vindicanda est, ut ne quis concessum
+putet amicum vel bellum patriae inferentem sequi; quod quidem, ut res ire
+coepit, haud scio an aliquando futurum sit. Mihi autem non minori curae est,
+qualis res publica post mortem meam futura, quam qualis hodie sit.
+....
+
+=== Chapitre 5.1 Dossier de description technique du système (DDTS)
+
+[reference="2.1"]
+==== Partie 1
+
+Cf. 2.2.4 – Dossier technique, page 12
+
+....
+Ipsam vero urbem Byzantiorum fuisse refertissimam atque ornatissimam signis
+quis ignorat? Quae illi, exhausti sumptibus bellisque maximis, cum omnis
+Mithridaticos impetus totumque Pontum armatum affervescentem in Asiam atque
+erumpentem, ore repulsum et cervicibus interclusum suis sustinerent, tum,
+inquam, Byzantii et postea signa illa et reliqua urbis ornanemta sanctissime
+custodita tenuerunt.
+....
+
+[reference="2.2"]
+==== Partie 1
+
+Cf. 2.2.4 – Dossier technique, page 12
+
+....
+Ipsam vero urbem Byzantiorum fuisse refertissimam atque ornatissimam signis
+quis ignorat? Quae illi, exhausti sumptibus bellisque maximis, cum omnis
+Mithridaticos impetus totumque Pontum armatum affervescentem in Asiam atque
+erumpentem, ore repulsum et cervicibus interclusum suis sustinerent, tum,
+inquam, Byzantii et postea signa illa et reliqua urbis ornanemta sanctissime
+custodita tenuerunt.
+....

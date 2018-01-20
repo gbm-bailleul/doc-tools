@@ -1,0 +1,6 @@
+= My complete documentation
+:toc:
+
+include::part1.adoc[]
+
+include::part2.adoc[]

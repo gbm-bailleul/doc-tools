@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>doc-tools</artifactId>
+        <groupId>com.wline.documentation</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ref-sample</artifactId>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.wline.documentation</groupId>
+                        <artifactId>doc-processors</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>Document generation</id>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <sourceDirectory>docs/asciidoc</sourceDirectory>
+                            <sourceDocumentName>full.adoc</sourceDocumentName>
+                            <backend>pdf</backend>
+                            <extensions>
+                                <extension>
+                                    <className>com.wline.documentation.ref.RequirementMacro</className>
+                                    <blockName>req</blockName>
+                                </extension>
+                            </extensions>
+                            <attributes>
+                                <csv>${build.directory}/references.csv</csv>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>References generation</id>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <sourceDirectory>${project.basedir}/docs/index</sourceDirectory>
+                            <backend>html5</backend>
+                            <extensions>
+                                <extension>
+                                    <className>com.wline.documentation.ref.ReferenceTreeMacro</className>
+                                </extension>
+                            </extensions>
+                            <attributes>
+                                <csv>${build.directory}/references.csv</csv>
+                                <references-dir>${project.basedir}/docs/references</references-dir>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
