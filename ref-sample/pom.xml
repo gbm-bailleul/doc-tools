@@ -69,6 +69,8 @@
                             </extensions>
                             <attributes>
                                 <csv>${working.references.dir}/${artifactId}.csv</csv>
+                                <pdf-stylesdir>../style</pdf-stylesdir>
+                                <pdf-style>custom</pdf-style>
                             </attributes>
                         </configuration>
                     </execution>
