@@ -67,7 +67,7 @@ public class ReferenceTreeMacro
 				logger.debug("  Found reference : {}",target);
 				List<PageLink> pageLinks = this.links.get(target);
 				logger.debug("    links: {} ",pageLinks!=null?pageLinks.size():0);
-				if (pageLinks != null && pageLinks.isEmpty()) {
+				if (pageLinks != null && !pageLinks.isEmpty()) {
 					for (PageLink pageLink : pageLinks) {
 						Map<Object, Object> options = new HashMap<>();
 						options.put("type", ":link");
@@ -89,7 +89,7 @@ public class ReferenceTreeMacro
 								Arrays.asList(pageLink.getDescription(),s),
 								section.getAttributes(),
 								new HashMap<>());
-						section.getBlocks().add(0,nb);
+						section.getBlocks().add(1,nb);
 					}
 				}
 			}
