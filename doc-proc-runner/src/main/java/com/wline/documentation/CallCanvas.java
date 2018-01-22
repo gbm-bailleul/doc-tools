@@ -13,6 +13,8 @@ public class CallCanvas {
 
     public static final String KEY = "canvas";
 
+    private CallCanvas () {}
+
     protected static void call(String[] args) throws IOException {
         Options options = new Options();
         options.addOption(

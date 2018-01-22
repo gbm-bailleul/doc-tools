@@ -1,11 +1,20 @@
 package com.wline.documentation.ref;
 
-import org.asciidoctor.ast.*;
-import org.asciidoctor.extension.Treeprocessor;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.asciidoctor.ast.AbstractBlock;
+import org.asciidoctor.ast.Block;
+import org.asciidoctor.ast.Document;
+import org.asciidoctor.ast.DocumentRuby;
+import org.asciidoctor.ast.Section;
+import org.asciidoctor.extension.Treeprocessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReferenceTreeMacro
 		extends Treeprocessor {
@@ -14,17 +23,19 @@ public class ReferenceTreeMacro
 
 	private boolean initialized = false;
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public ReferenceTreeMacro(Map<String, Object> config) throws RuntimeException {
+
+	public ReferenceTreeMacro(Map<String, Object> config) {
 		super(config);
 	}
 
-	private void initialize (DocumentRuby document) throws RuntimeException{
+	private void initialize (DocumentRuby document) {
 		File csvDir = new File((String)document.getAttr("references-dir"));
 		try {
 			this.links = PageLink.loadCsvFile(csvDir);
 		} catch (IOException e) {
-			throw new RuntimeException("Problem when reading csv file : " + e.getMessage());
+			throw new IllegalArgumentException("Problem when reading csv file : " + e.getMessage());
 		}
 		initialized = true;
 	}
@@ -44,15 +55,20 @@ public class ReferenceTreeMacro
 
 	protected void process (Document document, AbstractBlock block) {
 		if (block instanceof Section) {
-			Section section = (Section)block;
-			System.out.println("In section "+section.getTitle()+" / "+section.getLevel());
+			processSection(document,(Section)block);
+		}
+	}
+
+
+	protected void processSection (Document document, Section section) {
+			logger.debug("In section "+section.getTitle()+" / "+section.getLevel());
 			if (section.getAttributes().containsKey("reference")) {
 				String target = section.getAttr("reference").toString();
-				System.out.println("  Found reference : "+target);
-				List<PageLink> links = this.links.get(target);
-				System.out.println("    links: "+(links!=null?links.size():0));
-				if (links != null && links.size()>0) {
-					for (PageLink pageLink : links) {
+				logger.debug("  Found reference : {}",target);
+				List<PageLink> pageLinks = this.links.get(target);
+				logger.debug("    links: {} ",pageLinks!=null?pageLinks.size():0);
+				if (pageLinks != null && pageLinks.isEmpty()) {
+					for (PageLink pageLink : pageLinks) {
 						Map<Object, Object> options = new HashMap<>();
 						options.put("type", ":link");
 						String tg = pageLink.getTarget()+
@@ -80,7 +96,6 @@ public class ReferenceTreeMacro
 			for (AbstractBlock sb: section.getBlocks()) {
 				process(document, sb);
 			}
-		}
 	}
 
 

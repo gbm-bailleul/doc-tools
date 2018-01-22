@@ -19,7 +19,7 @@ public class BuildCanvas {
 		Sheet sheet = 	wb.getSheet("Feuil1");
 		Iterator<Row> rows = sheet.iterator();
 
-		List<List<Row>> bags = new ArrayList<List<Row>>();
+		List<List<Row>> bags = new ArrayList<>();
 		List<Row> bag =  null;
 		// skip headers
 		rows.next();
@@ -27,7 +27,7 @@ public class BuildCanvas {
 			Row row = rows.next();
 			if (row.cellIterator().next().getStringCellValue().startsWith("§")) {
 				if (bag!=null)  bags.add(bag);
-				bag = new ArrayList<Row>();
+				bag = new ArrayList<>();
 			}
 			bag.add(row);
 
@@ -116,13 +116,12 @@ public class BuildCanvas {
 	}
 
 	public String getBagId (List<Row> bag) {
-		StringBuilder sb = new StringBuilder ();
 		// tmp = first line without the first character
 		String tmp = bag.get(0).cellIterator().next().getStringCellValue().substring(2);
-		if (tmp.indexOf(" ")<0)
+		if (tmp.indexOf(' ')<0)
 			return tmp; // there is only the value
 		else
-			return tmp.substring(0,tmp.indexOf(" ")); // remove text after index
+			return tmp.substring(0,tmp.indexOf(' ')); // remove text after index
 	}
 
 

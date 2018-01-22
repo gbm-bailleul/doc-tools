@@ -1,15 +1,15 @@
 package com.wline.documentation.ref;
 
-import org.apache.commons.io.FileUtils;
-import org.asciidoctor.ast.AbstractBlock;
-import org.asciidoctor.ast.DocumentRuby;
-import org.asciidoctor.extension.BlockMacroProcessor;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
+import org.asciidoctor.ast.AbstractBlock;
+import org.asciidoctor.ast.DocumentRuby;
+import org.asciidoctor.extension.BlockMacroProcessor;
 
 public class RequirementMacro
 		extends BlockMacroProcessor {
@@ -24,7 +24,7 @@ public class RequirementMacro
 
 	private void initialize (DocumentRuby document) {
 		if (document.getAttributes().get("csv")==null)
-			throw new RuntimeException("Missing mandatory property 'csv'");
+			throw new IllegalArgumentException("Missing mandatory property 'csv'");
 		csvFile = new File((String)document.getAttributes().get("csv"));
 		FileUtils.deleteQuietly(csvFile);
 		initialized = true;
@@ -50,7 +50,7 @@ public class RequirementMacro
 
 		try {
 			PageLink pl = new PageLink(target, description, relativePath.toString(),isBook?null:parent.id());
-			FileUtils.writeStringToFile(this.csvFile,pl.toString() + "\n",true);
+			FileUtils.write(this.csvFile,pl.toString() + "\n", "ISO-8859-1", true);
 		} catch (IOException e) {
 			throw new RuntimeException("Problem when writing into csv file : " +  e.getMessage(),e);
 		}

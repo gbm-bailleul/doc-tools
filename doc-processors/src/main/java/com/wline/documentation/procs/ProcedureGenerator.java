@@ -86,7 +86,6 @@ public class ProcedureGenerator {
         try {
             ppp.process(input, output);
         } catch (ParseException e) {
-            // TODO ugly
             throw new IOException("Failed to parse source: "+e.getMessage());
         }
 
@@ -125,7 +124,7 @@ public class ProcedureGenerator {
 
         protected int lineCount = 0;
 
-        protected ThreadLocal<BufferedReader> reader = new ThreadLocal<BufferedReader>();
+        protected ThreadLocal<BufferedReader> reader = new ThreadLocal<>();
 
         public void process (InputStream input, OutputStream output) throws IOException,ParseException {
             reader.set(new BufferedReader(new InputStreamReader(input)));
@@ -137,7 +136,7 @@ public class ProcedureGenerator {
                 } else if (buffer.startsWith(TAG_SECRET_START)) {
                     buffer = secret(writer, buffer);
                 } else if (buffer.startsWith(TAG_CARTRIDGE)) {
-                    buffer = cartridge(writer, buffer);
+                    buffer = cartridge(writer);
                 } else {
                     writer.write(buffer);
                     writer.write("\n");
@@ -149,7 +148,7 @@ public class ProcedureGenerator {
 
         }
 
-        protected String cartridge (Writer writer, String buffer) throws IOException, ParseException {
+        protected String cartridge (Writer writer) throws IOException {
             writer.write("[width=\"80%\",cols=\"1a,1,1\",options=header]\n");
             writer.write("|=======\n");
             writer.write("|Maître de Cérémonie|Auditeur Interne|Opérateur d’enregistrement\n");
@@ -215,7 +214,7 @@ public class ProcedureGenerator {
         protected String procedureStep (Writer writer, String buffer) throws IOException,ParseException {
             // check if we are in detail view
             if (buffer.startsWith(TAG_DETAIL))
-                return procedureStepDetail(writer,buffer);
+                return procedureStepDetail(writer);
 
             StepInfo si = parseStepInfo(buffer);
             buffer = nextLine();
@@ -241,8 +240,8 @@ public class ProcedureGenerator {
             return buffer;
         }
 
-        private String procedureStepDetail(Writer writer, String buffer) throws IOException {
-            buffer = nextLine();
+        private String procedureStepDetail(Writer writer) throws IOException {
+            String buffer = nextLine();
             writer.write("5+a|");
             writer.write(buffer);
             writer.write("\n");
@@ -266,8 +265,8 @@ public class ProcedureGenerator {
 
 
         public StepInfo parseStepInfo (String buffer) throws ParseException {
-            int sta = buffer.indexOf("[");
-            int end = buffer.indexOf("]");
+            int sta = buffer.indexOf('[');
+            int end = buffer.indexOf(']');
             if (sta<0 || end < 0 || end <sta)
                 throw new ParseException("Step Description is mandatory at line "+lineCount,0);
             String values = buffer.substring(sta+1, end);
@@ -294,9 +293,9 @@ public class ProcedureGenerator {
 
         private static class StepInfo {
 
-            public String actor;
+            private String actor;
 
-            public String action;
+            private String action;
 
         }
     }

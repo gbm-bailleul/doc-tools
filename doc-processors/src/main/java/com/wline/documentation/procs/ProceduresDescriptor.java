@@ -5,12 +5,17 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public class ProceduresDescriptor {
 
 	private Map<String,Object> content;
+
+	private static Logger logger = LoggerFactory.getLogger(ProceduresDescriptor.class);
 
 	public ProceduresDescriptor(Map<String, Object> content) {
 		this.content = content;
@@ -25,13 +30,12 @@ public class ProceduresDescriptor {
 
 	public static void main (String [] args) throws Exception {
 		ProceduresDescriptor descriptor = ProceduresDescriptor.load(new File("sample/data/main.yml"));
-		System.out.println(descriptor.content);
+		logger.info("{}",descriptor.content);
 		for (String docid : descriptor.getDocumentsKey()) {
-			System.out.println("Template: "+descriptor.getTemplate(docid));
+			logger.info("Template: "+descriptor.getTemplate(docid));
 			for (Map.Entry<String,Object> entry: descriptor.getAttributes(docid,true).entrySet()) {
-				System.out.println("  "+entry.getKey()+" = "+entry.getValue());
+				logger.info("  "+entry.getKey()+" = "+entry.getValue());
 			}
-			System.out.println();
 		}
 	}
 
