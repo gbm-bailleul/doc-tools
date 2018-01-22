@@ -1,10 +1,17 @@
 package com.wline.documentation;
 
-import com.wline.documentation.procs.ProcedureGenerator;
-import org.apache.commons.cli.*;
-
 import java.io.File;
 import java.io.IOException;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
+import com.wline.documentation.procs.ProcedureGenerator;
 
 /**
  * Created by Guillaume Bailleul on 16/01/2018.
@@ -12,6 +19,8 @@ import java.io.IOException;
 public class CallProcedure {
 
     public static final String PROCEDURE = "proc";
+
+    private CallProcedure () {}
 
     protected static void callProcedure(String[] args) throws IOException {
         Options options = new Options();
@@ -67,7 +76,10 @@ public class CallProcedure {
                 new File(command.getOptionValue("w")):
                 new File(System.getProperty("java.tmp.dir"));
         if (!workingDir.exists()) {
-            workingDir.mkdirs();
+            if (!workingDir.mkdirs()) {
+                // failed to create directory
+                throw new IOException("Failed to create directory: "+workingDir.getAbsolutePath());
+            }
             workingDir.deleteOnExit();
         }
 

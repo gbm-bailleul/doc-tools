@@ -1,15 +1,21 @@
 package com.wline.documentation;
 
-import com.wline.documentation.ref.RequirementMacro;
-import org.apache.commons.cli.*;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.extension.JavaExtensionRegistry;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import com.wline.documentation.ref.RequirementMacro;
 
 /**
  * Created by Guillaume Bailleul on 18/01/2018.
@@ -18,8 +24,9 @@ public class CallAsciidoctor {
 
     public static final String KEY = "doctor";
 
+    private CallAsciidoctor () {}
 
-    protected static void call(String[] args) throws IOException {
+    protected static void call(String[] args) {
         Options options = new Options();
         options.addOption(
                 Option.builder("s")
@@ -64,7 +71,6 @@ public class CallAsciidoctor {
 
         Asciidoctor doctor = Asciidoctor.Factory.create();
         JavaExtensionRegistry jer = doctor.javaExtensionRegistry();
-//        jer.treeprocessor(new ReferenceTreeMacro(blockMacroOptions));
         jer.blockMacro(new RequirementMacro("req",blockMacroOptions));
 
         doctor.convertFile(

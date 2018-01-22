@@ -19,10 +19,16 @@
 		<module>doc-processors</module>
 		<module>doc-proc-runner</module>
 		<module>docproc-maven-plugin</module>
-		<module>sample</module>
-		<module>ref-sample</module>
 	</modules>
 
-
+	<profiles>
+		<profile>
+			<id>dev-build</id>
+			<modules>
+				<module>sample</module>
+				<module>ref-sample</module>
+			</modules>
+		</profile>
+	</profiles>
 
 </project>
