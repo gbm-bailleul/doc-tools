@@ -21,6 +21,25 @@ Voici un attribut défini, la version de proc: {procversion}
 
 Voici un attribut défini dans le fichier de conf: {value_from_conf}
 
+== Exemple procédure avec boucle
+
+%%loop [clients]
+
+=== Client: {nom_client}
+
+%%procedure [OH]
+
+Action 1 {nokey}
+
+%% [OH]
+
+Action 2 for {client_key}
+
+%%end
+
+%%eloop
+
+
 == Ma première procédure
 
 Voici du texte avant la procédure.

@@ -9,6 +9,17 @@ documents:
       value_from_conf: external value for hello1
       doc_sub_title: hello 1
       distribution: Confidentiel
+      clients:
+        -
+          client_key: AAAA
+          nom_client: Raoul
+        -
+          client_key: BBBB
+          nom_client: Edmonde
+        -
+          client_key: CCCC
+          nom_client: Bernard
+
   proc2:
     template: hello2.adoc
     attributes:

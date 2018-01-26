@@ -79,7 +79,7 @@ public class ProcedureGenerator {
 
         FileUtils.copyDirectory(source.getParentFile(),workingDir);
 
-        ProcedurePreProc ppp = new ProcedurePreProc();
+        ProcedurePreProc ppp = new ProcedurePreProc(attributes);
         FileInputStream input = new FileInputStream(source);
         FileOutputStream output = new FileOutputStream(outputFile);
 
@@ -91,14 +91,16 @@ public class ProcedureGenerator {
 
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
 
-        attributes.put("pdf-stylesdir",workingDir.getAbsolutePath());
-        if (!attributes.containsKey("pdf-style")) {
-            attributes.put("pdf-style","custom");
+        Map<String,Object> modifiedAttributes = ppp.getAttributes();
+
+        modifiedAttributes.put("pdf-stylesdir",workingDir.getAbsolutePath());
+        if (!modifiedAttributes.containsKey("pdf-style")) {
+            modifiedAttributes.put("pdf-style","custom");
         }
 
         asciidoctor.convertFile(outputFile, OptionsBuilder.options()
                 .mkDirs(true)
-                .attributes(attributes)
+                .attributes(modifiedAttributes)
                 .backend(backend)
                 .toDir(outputDir));
     }
@@ -120,14 +122,33 @@ public class ProcedureGenerator {
 
         public static final String TAG_DETAIL = "%%detail";
 
+        public static final String TAG_LOOP = "%%loop";
+
+        public static final String TAG_END_LOOP = "%%eloop";
+
+        private final Map<String, Object> attributes;
+
         protected int stepCount = 0;
 
         protected int lineCount = 0;
 
         protected ThreadLocal<BufferedReader> reader = new ThreadLocal<>();
 
+        protected ThreadLocal<List<String>> bufferedLines = new ThreadLocal<>();
+
+        protected List<String> loopKeys = new ArrayList<>();
+
+        public ProcedurePreProc (Map<String,Object> attributes ) {
+            this.attributes = attributes;
+        }
+
+        public Map<String, Object> getAttributes() {
+            return attributes;
+        }
+
         public void process (InputStream input, OutputStream output) throws IOException,ParseException {
             reader.set(new BufferedReader(new InputStreamReader(input)));
+            bufferedLines.set(new ArrayList<>());
             Writer writer = new OutputStreamWriter(output);
             String buffer = nextLine();
             while (buffer!=null) {
@@ -137,6 +158,8 @@ public class ProcedureGenerator {
                     buffer = secret(writer, buffer);
                 } else if (buffer.startsWith(TAG_CARTRIDGE)) {
                     buffer = cartridge(writer);
+                } else if (buffer.startsWith(TAG_LOOP)) {
+                    buffer = loop(writer,buffer);
                 } else {
                     writer.write(buffer);
                     writer.write("\n");
@@ -146,6 +169,53 @@ public class ProcedureGenerator {
             writer.flush();
             reader.get().close();
 
+        }
+
+        private String loop(Writer writer, String buffer) throws IOException,ParseException {
+            StepInfo si = parseStepInfo(buffer);
+            // add loop key if not already in list
+            if (!loopKeys.contains(si.actor)) loopKeys.add(si.actor);
+            buffer = nextLine();
+            List<String> loopContent = new ArrayList<>();
+            while (!buffer.startsWith(TAG_END_LOOP)) {
+                loopContent.add(buffer);
+                buffer = nextLine();
+            }
+            List<Map<String,Object>> elements = (List<Map<String,Object>>) attributes.get(si.actor);
+            if (elements==null) {
+                throw new ParseException("Expected list key does not exists: "+si.actor,lineCount);
+            }
+            int count = 0;
+            for (Map<String,Object> element : elements) {
+                for (String line: loopContent) {
+                    bufferLine(renameAttributes(line,count,element));
+                }
+                count++;
+            }
+            // first line after eloop
+            return nextLine();
+        }
+
+        private String renameAttributes (String line, int count,Map<String,Object> element) {
+            StringBuilder sb = new StringBuilder(line.length()+10);
+            StringBuilder name = new StringBuilder();
+            for (char c : line.toCharArray()) {
+                if ('{' == c) {
+                    name = new StringBuilder();
+                } else if ('}' == c) {
+                    if (element.containsKey(name.toString())) {
+                        // add suffix to key name
+                        sb.append('_').append(count);
+                        // create attribute with suffix
+                        String attrName = name.toString()+"_"+count;
+                        attributes.put(attrName,element.get(name.toString()));
+                    } // else not a key
+                } else {
+                    name.append(c);
+                }
+                sb.append(c);
+            }
+            return sb.toString();
         }
 
         protected String cartridge (Writer writer) throws IOException {
@@ -258,11 +328,22 @@ public class ProcedureGenerator {
         }
 
         protected String nextLine () throws IOException {
-            lineCount++;
-            return reader.get().readLine();
+            if (bufferedLines.get().size()>0) {
+                // some line has been buffered
+                return bufferedLines.get().remove(0);
+            } else {
+                lineCount++;
+                return reader.get().readLine();
+            }
         }
 
+        protected void bufferLines (List<String> lines) {
+            bufferedLines.get().addAll(lines);
+        }
 
+        protected void bufferLine (String line) {
+            bufferedLines.get().add(line);
+        }
 
         public StepInfo parseStepInfo (String buffer) throws ParseException {
             int sta = buffer.indexOf('[');
