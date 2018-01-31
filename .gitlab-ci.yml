@@ -1,0 +1,54 @@
+image: registry-testing.kazan.atosworldline.com/saem/wl-edoc-gitlab-ci:jdk8-1.0.2
+
+variables:
+  MAVEN_OPTS: -Dmaven.repo.local=/cache/maven.repository -Djava.awt.headless=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+
+stages:
+ - build
+ - deployment
+
+build:
+ stage: build
+ script:
+   - mvn clean install
+ artifacts:
+  expire_in: 60 minutes
+  paths:
+  - "**/target/jacoco.exec"
+  - "**/target/classes/*"
+  - "**/target/generated-snippets/*"
+
+
+########## deploy snapshot ##########
+
+snapshot:
+ stage: deployment
+ script:
+ - mvn deploy -DskipTests
+ only:
+ - master
+
+
+########## deploy releases ##########
+
+release:
+ stage: deployment
+ script:
+ - mvn  deploy -DskipTests
+ only:
+ - tags
+
+
+# Note: in order to release artifact, go to CI pipelines configuration to set following properties:
+# - SSH_PRIVATE_KEY   ex: -----BEGIN RSA PRIVATE KEY----- etc.
+# - DEV_VERSION       ex: 1.0.0
+# - RELEASE_VERSION   ex: 1.0.1-SNAPSHOT
+prepare-release:
+ stage: deployment
+ script:
+ - release
+ when: manual
+ tags:
+  - "no-transproxy"
+ except:
+ - tags
