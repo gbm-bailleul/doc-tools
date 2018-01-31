@@ -1,6 +1,7 @@
 image: registry-testing.kazan.atosworldline.com/saem/wl-edoc-gitlab-ci:jdk8-1.0.2
 
 variables:
+  MAVEN_CLI_OPTS: -Pdistribution
   MAVEN_OPTS: -Dmaven.repo.local=/cache/maven.repository -Djava.awt.headless=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
 
 stages:
