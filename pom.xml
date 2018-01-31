@@ -29,6 +29,21 @@
 				<module>ref-sample</module>
 			</modules>
 		</profile>
+		<profile>
+			<id>distribution</id>
+			<distributionManagement>
+				<repository>
+					<id>kazan-confidential-release-repo</id>
+					<name>Kazan Repository for Maven</name>
+					<url>${kazan-confidential-release-repo-url}</url>
+				</repository>
+				<snapshotRepository>
+					<id>kazan-confidential-snapshot-repo</id>
+					<name>Kazan Snapshot Repository for Maven</name>
+					<url>${kazan-confidential-snapshot-repo-url}</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
 	</profiles>
 
 </project>
