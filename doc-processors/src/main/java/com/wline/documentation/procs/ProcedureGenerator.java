@@ -303,6 +303,17 @@ public class ProcedureGenerator {
                 writer.write("\n");
                 buffer = nextLine();
             }
+            while (buffer.startsWith(TAG_LOOP)) {
+                // loop in the procedure step
+                buffer = loop(writer,buffer);
+                // up to next tag
+                while (!buffer.startsWith(TAG)) {
+                    writer.write(buffer);
+                    writer.write("\n");
+                    buffer = nextLine();
+                }
+            }
+
             writer.write("|{nbsp}");
             writer.write("\n");
             // new table line
