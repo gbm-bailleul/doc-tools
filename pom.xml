@@ -33,14 +33,16 @@
 			<id>distribution</id>
 			<distributionManagement>
 				<repository>
-					<id>kazan-public-releases-repo</id>
+					<id>kazan-release-repo</id>
 					<name>Kazan Repository for Maven</name>
 					<url>${kazan-release-repo-url}</url>
+					<!--<url>${kazan-public-releases-repo}</url>-->
 				</repository>
 				<snapshotRepository>
-					<id>kazan-public-snapshot-repo</id>
+					<id>kazan-snapshot-repo</id>
 					<name>Kazan Snapshot Repository for Maven</name>
 					<url>${kazan-snapshot-repo-url}</url>
+					<!--<url>${kazan-public-snapshots-repo}</url>-->
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
