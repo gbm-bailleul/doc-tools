@@ -40,7 +40,7 @@
 				<snapshotRepository>
 					<id>kazan-public-snapshot-repo</id>
 					<name>Kazan Snapshot Repository for Maven</name>
-					<url>${kazan-public-snapshot-repo}</url>
+					<url>${kazan-public-snapshots-repo}</url>
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
