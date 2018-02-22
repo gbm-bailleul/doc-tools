@@ -58,7 +58,7 @@
 					<dependency>
 						<groupId>org.jruby</groupId>
 						<artifactId>jruby-complete</artifactId>
-						<version>9.1.5.0</version>
+						<version>9.1.16.0</version>
 					</dependency>
 				</dependencies>
 				<executions>
