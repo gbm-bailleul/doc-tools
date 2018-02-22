@@ -1,0 +1,62 @@
+== Title of part 1
+
+=== La pate a crepes
+
+req::5.1[]
+
+Hinc ille commotus ut iniusta perferens et indigna praefecti custodiam
+protectoribus mandaverat fidis. quo conperto Montius tunc quaestor acer
+quidem sed ad lenitatem propensior, consulens in commune advocatos palatinarum
+primos scholarum adlocutus est mollius docens nec decere haec fieri nec
+prodesse addensque vocis obiurgatorio sonu quod si id placeret, post statuas
+Constantii deiectas super adimenda vita praefecto conveniet securius cogitari.
+
+Excogitatum est super his, ut homines quidam ignoti, vilitate ipsa parum
+cavendi ad colligendos rumores per Antiochiae latera cuncta destinarentur
+relaturi quae audirent. hi peragranter et dissimulanter honoratorum circulis
+adsistendo pervadendoque divites domus egentium habitu quicquid noscere
+poterant vel audire latenter intromissi per posticas in regiam nuntiabant,
+id observantes conspiratione concordi, ut fingerent quaedam et cognita
+duplicarent in peius, laudes vero supprimerent Caesaris, quas invitis
+conpluribus formido malorum inpendentium exprimebat.
+
+Ipsam vero urbem Byzantiorum fuisse refertissimam atque ornatissimam signis
+quis ignorat? Quae illi, exhausti sumptibus bellisque maximis, cum omnis
+Mithridaticos impetus totumque Pontum armatum affervescentem in Asiam atque
+erumpentem, ore repulsum et cervicibus interclusum suis sustinerent, tum,
+inquam, Byzantii et postea signa illa et reliqua urbis ornanemta sanctissime
+custodita tenuerunt.
+
+Quare talis improborum consensio non modo excusatione amicitiae tegenda
+non est sed potius supplicio omni vindicanda est, ut ne quis concessum
+putet amicum vel bellum patriae inferentem sequi; quod quidem, ut res ire
+coepit, haud scio an aliquando futurum sit. Mihi autem non minori curae est,
+qualis res publica post mortem meam futura, quam qualis hodie sit.
+
+Postremo ad id indignitatis est ventum, ut cum peregrini ob formidatam haut
+ita dudum alimentorum inopiam pellerentur ab urbe praecipites, sectatoribus
+disciplinarum liberalium inpendio paucis sine respiratione ulla extrusis,
+tenerentur minimarum adseclae veri, quique id simularunt ad tempus, et tria
+milia saltatricum ne interpellata quidem cum choris totidemque remanerent
+magistris.
+
+
+== La pate à gauffre
+
+req::3.1[]
+
+Excogitatum est super his, ut homines quidam ignoti, vilitate ipsa parum
+cavendi ad colligendos rumores per Antiochiae latera cuncta destinarentur
+relaturi quae audirent. hi peragranter et dissimulanter honoratorum circulis
+adsistendo pervadendoque divites domus egentium habitu quicquid noscere
+poterant vel audire latenter intromissi per posticas in regiam nuntiabant,
+id observantes conspiratione concordi, ut fingerent quaedam et cognita
+duplicarent in peius, laudes vero supprimerent Caesaris, quas invitis
+conpluribus formido malorum inpendentium exprimebat.
+
+Ipsam vero urbem Byzantiorum fuisse refertissimam atque ornatissimam signis
+quis ignorat? Quae illi, exhausti sumptibus bellisque maximis, cum omnis
+Mithridaticos impetus totumque Pontum armatum affervescentem in Asiam atque
+erumpentem, ore repulsum et cervicibus interclusum suis sustinerent, tum,
+inquam, Byzantii et postea signa illa et reliqua urbis ornanemta sanctissime
+custodita tenuerunt.

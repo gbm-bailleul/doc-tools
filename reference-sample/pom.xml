@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.wline.gmts</groupId>
+	<artifactId>reference-sample</artifactId>
+	<version>0.1-SNAPSHOT</version>
+
+
+
+	<properties>
+		<working.references.dir>${build.directory}/working/references</working.references.dir>
+		<doc.processor.version>1.0.1-SNAPSHOT</doc.processor.version>
+	</properties>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Copy external references files</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<outputDirectory>${working.references.dir}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>docs/references</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>1.5.6</version>
+				<inherited>false</inherited>
+				<dependencies>
+					<dependency>
+						<groupId>com.wline.documentation</groupId>
+						<artifactId>doc-processors</artifactId>
+						<version>${doc.processor.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctorj</artifactId>
+						<version>1.6.0-alpha.6</version>
+					</dependency>
+					<dependency>
+						<groupId>org.jruby</groupId>
+						<artifactId>jruby-complete</artifactId>
+						<version>9.1.5.0</version>
+					</dependency>
+				</dependencies>
+				<executions>
+                        <execution>
+                            <id>Document generation</id>
+                            <goals>
+                                <goal>process-asciidoc</goal>
+                            </goals>
+                            <phase>generate-resources</phase>
+                            <configuration>
+                                <sourceDirectory>docs/asciidoc</sourceDirectory>
+                                <sourceDocumentName>full.adoc</sourceDocumentName>
+                                <backend>pdf</backend>
+								<!--
+                                <extensions>
+                                    <extension>
+                                        <className>com.wline.documentation.ref.RequirementMacro</className>
+                                        <blockName>req</blockName>
+                                    </extension>
+                                </extensions>
+                                -->
+                                <attributes>
+                                    <!--<csv>${working.references.dir}/${artifactId}.csv</csv>-->
+                                    <!--<pdf-stylesdir>../style</pdf-stylesdir>-->
+                                    <!--<pdf-style>custom</pdf-style>-->
+                                </attributes>
+                            </configuration>
+                        </execution>
+					<!--
+					<execution>
+						<id>References generation</id>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<sourceDirectory>${project.basedir}/docs/index</sourceDirectory>
+							<backend>pdf</backend>
+
+							<extensions>
+								<extension>
+									<className>com.wline.documentation.ref.ReferenceTreeMacro</className>
+								</extension>
+							</extensions>
+
+							<attributes>
+								<csv>${build.directory}/references.csv</csv>
+								<references-dir>${working.references.dir}</references-dir>
+							</attributes>
+						</configuration>
+					</execution>
+					-->
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+
+</project>
