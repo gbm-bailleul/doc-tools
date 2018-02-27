@@ -20,7 +20,8 @@ public class TestRunner {
 				new File (source),
 				new File (attributes),
 				new File (outputDir),
-				new File (workingDir)
+				new File (workingDir),
+				"generated"
 		);
 
 	}

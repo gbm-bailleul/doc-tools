@@ -5,6 +5,7 @@ globals:
 documents:
   proc1:
     template: hello1.adoc
+    output: hello_one
     attributes:
       value_from_conf: external value for hello1
       doc_sub_title: hello 1
@@ -19,8 +20,24 @@ documents:
         -
           client_key: CCCC
           nom_client: Bernard
-
   proc2:
+    template: hello1.adoc
+    output: hello_two
+    attributes:
+      value_from_conf: external value for hello1
+      doc_sub_title: hello 1
+      distribution: Confidentiel
+      clients:
+        -
+          client_key: AAAA
+          nom_client: Raoul
+        -
+          client_key: BBBB
+          nom_client: Edmonde
+        -
+          client_key: CCCC
+          nom_client: Bernard
+  proc3:
     template: hello2.adoc
     attributes:
       value_from_conf: external value

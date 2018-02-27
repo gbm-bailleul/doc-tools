@@ -56,6 +56,14 @@ public class CallProcedure {
                         .desc("Target directory")
                         .build()
         );
+        options.addOption(
+            Option.builder("o")
+                .longOpt("output")
+                .required(false)
+                .hasArg()
+                .desc("Target file name")
+                .build()
+        );
 
 
         CommandLineParser parser = new DefaultParser();
@@ -91,6 +99,9 @@ public class CallProcedure {
                 new File (command.getOptionValue("a")):
                 null;
 
+				String output = command.hasOption("o")?
+           command.getOptionValue("o"):
+            null;
 
         ProcedureGenerator generator = new ProcedureGenerator();
         generator.setBackend("pdf");
@@ -99,7 +110,8 @@ public class CallProcedure {
                 source,
                 attrs,
                 target,
-                workingDir
+                workingDir,
+                output
         );
     }
 

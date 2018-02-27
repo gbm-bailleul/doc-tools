@@ -52,6 +52,11 @@ public class ProceduresDescriptor {
 		return ((Map<String,Object>)getDocuments().get(document)).get("template").toString();
 	}
 
+	public String getOutput (String document) {
+		Object value = ((Map<String,Object>)getDocuments().get(document)).get("output");
+		return value!=null?value.toString():null;
+	}
+
 	public Map<String,Object> getCommonAttributes() {
 		return (Map<String,Object>)content.get("globals");
 	}

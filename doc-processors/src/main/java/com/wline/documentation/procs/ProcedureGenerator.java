@@ -47,8 +47,8 @@ public class ProcedureGenerator {
         return result;
     }
 
-    public void generate (File source, File attributes, File outputDir, File workingDir) throws IOException {
-        generate(source,attributes,null,outputDir,workingDir);
+    public void generate (File source, File attributes, File outputDir, File workingDir, String outputName) throws IOException {
+        generate(source,attributes,null,outputDir,workingDir, outputName);
     }
 
     public void generateFromDescription(File description, File dataDir, File outputDir, File workingDir) throws IOException {
@@ -59,21 +59,26 @@ public class ProcedureGenerator {
         for (String docid : descriptor.getDocumentsKey()) {
             File template = new File (dataDir, descriptor.getTemplate(docid));
             Map<String,Object> attributes = descriptor.getAttributes(docid,true);
-            generate(template,attributes,outputDir,workingDir);
+            generate(template,attributes,outputDir,workingDir, descriptor.getOutput(docid));
         }
 
     }
 
 
-    public void generate (File source, File attributes, File mainAttributes, File outputDir, File workingDir) throws IOException {
+    public void generate (File source, File attributes, File mainAttributes, File outputDir, File workingDir, String outputName) throws IOException {
         Map<String,Object> externalAttributes = loadAttributes(attributes,mainAttributes);
-        generate(source,externalAttributes,outputDir,workingDir);
+        generate(source,externalAttributes,outputDir,workingDir, outputName);
 
     }
 
-    public void generate (File source, Map<String,Object> attributes, File outputDir, File workingDir) throws IOException {
+    public void generate (File source, Map<String,Object> attributes, File outputDir, File workingDir, String outputName) throws IOException {
 
-        File outputFile = new File(workingDir,source.getName());
+        if (outputName==null)
+            outputName = source.getName();
+        else
+            outputName += ".adoc";
+
+        File workingFile = new File(workingDir,outputName);
 
         FileUtils.forceMkdir(workingDir);
 
@@ -81,7 +86,7 @@ public class ProcedureGenerator {
 
         ProcedurePreProc ppp = new ProcedurePreProc(attributes);
         FileInputStream input = new FileInputStream(source);
-        FileOutputStream output = new FileOutputStream(outputFile);
+        FileOutputStream output = new FileOutputStream(workingFile);
 
         try {
             ppp.process(input, output);
@@ -98,7 +103,7 @@ public class ProcedureGenerator {
             modifiedAttributes.put("pdf-style","custom");
         }
 
-        asciidoctor.convertFile(outputFile, OptionsBuilder.options()
+        asciidoctor.convertFile(workingFile, OptionsBuilder.options()
                 .mkDirs(true)
                 .attributes(modifiedAttributes)
                 .backend(backend)
