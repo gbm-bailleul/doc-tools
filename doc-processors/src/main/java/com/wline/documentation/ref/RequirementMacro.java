@@ -50,7 +50,7 @@ public class RequirementMacro
 
 		try {
 			PageLink pl = new PageLink(target, description, relativePath.toString(),isBook?null:parent.id());
-			FileUtils.write(this.csvFile,pl.toString() + "\n", "ISO-8859-1", true);
+			FileUtils.write(this.csvFile,pl.toString() + "\n", "utf-8", true);
 		} catch (IOException e) {
 			throw new RuntimeException("Problem when writing into csv file : " +  e.getMessage(),e);
 		}
