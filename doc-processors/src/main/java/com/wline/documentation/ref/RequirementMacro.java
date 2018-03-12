@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.asciidoctor.ast.AbstractBlock;
-import org.asciidoctor.ast.DocumentRuby;
+import org.asciidoctor.ast.StructuralNode;
+import org.asciidoctor.ast.Document;
 import org.asciidoctor.extension.BlockMacroProcessor;
 
 public class RequirementMacro
@@ -22,7 +22,7 @@ public class RequirementMacro
 		super(macroName, config);
 	}
 
-	private void initialize (DocumentRuby document) {
+	private void initialize (Document document) {
 		if (document.getAttributes().get("csv")==null)
 			throw new IllegalArgumentException("Missing mandatory property 'csv'");
 		csvFile = new File((String)document.getAttributes().get("csv"));
@@ -31,7 +31,7 @@ public class RequirementMacro
 	}
 
 	@Override
-	public Object process(AbstractBlock parent, String target, Map<String, Object> attributes) {
+	public Object process(StructuralNode parent, String target, Map<String, Object> attributes) {
 		if (!initialized) {
 			initialize(parent.getDocument());
 		}
@@ -50,7 +50,7 @@ public class RequirementMacro
 
 		try {
 			PageLink pl = new PageLink(target, description, relativePath.toString(),isBook?null:parent.id());
-			FileUtils.write(this.csvFile,pl.toString() + "\n", "ISO-8859-1", true);
+			FileUtils.write(this.csvFile,pl.toString() + "\n", "utf-8", true);
 		} catch (IOException e) {
 			throw new RuntimeException("Problem when writing into csv file : " +  e.getMessage(),e);
 		}

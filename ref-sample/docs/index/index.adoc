@@ -17,19 +17,25 @@ magistris.
 
 == References
 
-[reference="1.1"]
 === External web site example
-Reference 1.1
+
+[reference="1.1"]
+
+
+=== External web site example part 2
+
+[reference="1.4"]
+
 
 Cf document coin
 
 ....
 Link to external documentations
 ....
+
+=== Github of documentation project
 
 [reference="1.2"]
-=== Github of documentation project
-Reference 1.2
 
 Cf document coin
 
@@ -38,9 +44,9 @@ Link to external documentations
 ....
 
 
-[reference="3.1"]
 === Chapitre 5.1 Dossier de description technique du système (DDTS)
-Reference 3.1
+
+[reference="3.1"]
 
 Cf. 2.2.4 – Dossier technique, page 12
 
@@ -64,10 +70,9 @@ qualis res publica post mortem meam futura, quam qualis hodie sit.
 
 === Chapitre 5.1 Dossier de description technique du système (DDTS)
 
-[reference="2.1"]
 ==== Partie 1
-Reference 2.1
 
+[reference="2.1"]
 
 Cf. 2.2.4 – Dossier technique, page 12
 
@@ -80,9 +85,9 @@ inquam, Byzantii et postea signa illa et reliqua urbis ornanemta sanctissime
 custodita tenuerunt.
 ....
 
-[reference="2.2"]
 ==== Partie 1
-Reference 2.2
+
+[reference="2.2"]
 
 Cf. 2.2.4 – Dossier technique, page 12
 

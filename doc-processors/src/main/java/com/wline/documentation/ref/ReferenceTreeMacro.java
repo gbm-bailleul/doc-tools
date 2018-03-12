@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.asciidoctor.ast.AbstractBlock;
 import org.asciidoctor.ast.Block;
 import org.asciidoctor.ast.Document;
-import org.asciidoctor.ast.DocumentRuby;
 import org.asciidoctor.ast.Section;
+import org.asciidoctor.ast.StructuralNode;
 import org.asciidoctor.extension.Treeprocessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,7 @@ public class ReferenceTreeMacro
 		super(config);
 	}
 
-	private void initialize (DocumentRuby document) {
+	private void initialize (Document document) {
 		File csvDir = new File((String)document.getAttr("references-dir"));
 		try {
 			this.links = PageLink.loadCsvFile(csvDir);
@@ -47,13 +46,13 @@ public class ReferenceTreeMacro
 		if (!initialized) {
 			initialize(document);
 		}
-		for (AbstractBlock block: document.getBlocks()) {
+		for (StructuralNode block: document.getBlocks()) {
 			process(document, block);
 		}
 		return document;
 	}
 
-	protected void process (Document document, AbstractBlock block) {
+	protected void process (Document document, StructuralNode block) {
 		if (block instanceof Section) {
 			processSection(document,(Section)block);
 		}
@@ -76,7 +75,7 @@ public class ReferenceTreeMacro
 
 						options.put("target", tg);
 
-						String s = createInline(
+						String s = createPhraseNode(
 								section,
 								"anchor",
 								Arrays.asList(tg),
@@ -93,7 +92,7 @@ public class ReferenceTreeMacro
 					}
 				}
 			}
-			for (AbstractBlock sb: section.getBlocks()) {
+			for (StructuralNode sb: section.getBlocks()) {
 				process(document, sb);
 			}
 	}
