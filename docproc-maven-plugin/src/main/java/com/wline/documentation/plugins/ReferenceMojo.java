@@ -1,6 +1,17 @@
 package com.wline.documentation.plugins;
 
-import com.wline.documentation.ref.PageLink;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -9,10 +20,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import com.wline.documentation.ref.PageLink;
 
 @Mojo(name = "reference")
 public class ReferenceMojo extends AbstractMojo {
@@ -118,7 +126,7 @@ public class ReferenceMojo extends AbstractMojo {
             writer.write('|');
             writer.write(entry.getKey());
             writer.write("| <<");
-            writer.write(entry.getValue().trim());
+            writer.write(entry.getValue().trim().replace("'","\'"));
             writer.write(">> ");
             writer.newLine();
         }

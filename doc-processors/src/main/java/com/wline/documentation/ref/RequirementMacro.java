@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.asciidoctor.ast.StructuralNode;
-import org.asciidoctor.ast.Document;
+import org.asciidoctor.ast.AbstractBlock;
+import org.asciidoctor.ast.DocumentRuby;
 import org.asciidoctor.extension.BlockMacroProcessor;
 
 public class RequirementMacro
@@ -22,7 +22,7 @@ public class RequirementMacro
 		super(macroName, config);
 	}
 
-	private void initialize (Document document) {
+	private void initialize (DocumentRuby document) {
 		if (document.getAttributes().get("csv")==null)
 			throw new IllegalArgumentException("Missing mandatory property 'csv'");
 		csvFile = new File((String)document.getAttributes().get("csv"));
@@ -31,10 +31,15 @@ public class RequirementMacro
 	}
 
 	@Override
-	public Object process(StructuralNode parent, String target, Map<String, Object> attributes) {
+	public Object process(AbstractBlock parent, String fullTarget, Map<String, Object> attributes) {
 		if (!initialized) {
 			initialize(parent.getDocument());
 		}
+
+		int pos = fullTarget.indexOf(",");
+		String target = pos<0?fullTarget:fullTarget.substring(0,pos);
+		String description  = pos>0?fullTarget.substring(pos+1):null;
+
 
 		// TODO maybe ugly; list of book format ? epub...
 		boolean isBook =  "pdf".equals(parent.getDocument().getAttr("backend"));
@@ -45,8 +50,10 @@ public class RequirementMacro
 		String parsedDocument = (String)parent.getDocument().getAttr("docfile") ;
 		Path relativePath = parentPath.relativize(Paths.get(parsedDocument));
 
-		String description = parent.getTitle();
-		if (description==null) description = parent.getDocument().doctitle().toString();
+		if  (description==null)
+			description = parent.getTitle();
+		if (description==null)
+			description = parent.getDocument().doctitle().toString();
 
 		try {
 			PageLink pl = new PageLink(target, description, relativePath.toString(),isBook?null:parent.id());
