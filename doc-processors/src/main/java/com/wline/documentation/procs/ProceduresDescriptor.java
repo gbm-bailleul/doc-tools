@@ -2,6 +2,8 @@ package com.wline.documentation.procs;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,9 +26,34 @@ public class ProceduresDescriptor {
 	public static ProceduresDescriptor load (File description ) throws IOException {
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		Map<String,Object> content = mapper.readValue(description, Map.class);
-		return new ProceduresDescriptor(content);
+		Map<String,Object> result = replaceVariables(content, content);
+		System.out.flush();
+		return new ProceduresDescriptor(result);
 	}
 
+	private static Map<String,Object> replaceVariables (Map<String,Object> root, Map<String,Object> content) {
+		Map<String,Object> result = new HashMap<>();
+		for (Map.Entry<String,Object> entry: content.entrySet()) {
+			if (entry.getValue() instanceof Map) {
+				result.put(entry.getKey(), replaceVariables(root, (Map<String,Object>)entry.getValue()));
+			} else if (entry.getValue() instanceof String) {
+				if (((String) entry.getValue()).startsWith("${")) {
+					String value = ((String) entry.getValue()).substring(2, ((String) entry.getValue()).indexOf("}"));
+					result.put(entry.getKey(),getGlobalValue(root, value));
+				} else {
+					result.put(entry.getKey(),entry.getValue());
+				}
+			} else {
+				result.put(entry.getKey(),entry.getValue());
+			}
+		}
+		return result;
+	}
+
+	private static String getGlobalValue (Map<String,Object> content, String key) {
+		String value = (String)((Map<String,Object>)content.get("globals")).get(key);
+		return value;
+	}
 
 	public static void main (String [] args) throws Exception {
 		ProceduresDescriptor descriptor = ProceduresDescriptor.load(new File("sample/data/main.yml"));
@@ -39,6 +66,17 @@ public class ProceduresDescriptor {
 		}
 	}
 
+	public boolean isMapOfDocuments () {
+		return content.get("documents") instanceof Map;
+	}
+
+	public boolean isListOfDocuments () {
+		return content.get("documents") instanceof List;
+	}
+
+	public List<Object> getDocumentsAsList () {
+		return (List<Object>)content.get("documents");
+	}
 
 	private Map<String,Object> getDocuments () {
 		return (Map<String,Object>)content.get("documents");
@@ -54,6 +92,11 @@ public class ProceduresDescriptor {
 
 	public String getOutput (String document) {
 		Object value = ((Map<String,Object>)getDocuments().get(document)).get("output");
+		return value!=null?value.toString():null;
+	}
+
+	public String getOutput (Map<String,Object> content) {
+		Object value = content.get("output");
 		return value!=null?value.toString():null;
 	}
 

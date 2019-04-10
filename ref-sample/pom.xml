@@ -5,7 +5,7 @@
     <parent>
         <artifactId>doc-tools</artifactId>
         <groupId>com.wline.documentation</groupId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>1.0.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -52,7 +52,7 @@
                     <dependency>
                         <groupId>com.wline.documentation</groupId>
                         <artifactId>doc-processors</artifactId>
-                        <version>1.0.2-SNAPSHOT</version>
+                        <version>1.0.3-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -103,7 +103,7 @@
             <plugin>
                 <groupId>com.wline.documentation.plugins</groupId>
                 <artifactId>docproc-maven-plugin</artifactId>
-                <version>1.0.2-SNAPSHOT</version>
+                <version>1.0.3-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <configuration>

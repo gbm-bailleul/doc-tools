@@ -56,10 +56,19 @@ public class ProcedureGenerator {
             throw new IOException("Invalid description file path: "+description);
         ProceduresDescriptor descriptor = ProceduresDescriptor.load(description);
 
-        for (String docid : descriptor.getDocumentsKey()) {
-            File template = new File (dataDir, descriptor.getTemplate(docid));
-            Map<String,Object> attributes = descriptor.getAttributes(docid,true);
-            generate(template,attributes,outputDir,workingDir, descriptor.getOutput(docid));
+        if (descriptor.isMapOfDocuments()) {
+            for (String docid : descriptor.getDocumentsKey()) {
+                File template = new File (dataDir, descriptor.getTemplate(docid));
+                Map<String,Object> attributes = descriptor.getAttributes(docid,true);
+                generate(template,attributes,outputDir,workingDir, descriptor.getOutput(docid));
+            }
+        } else if (descriptor.isListOfDocuments()) {
+            for (Object o: descriptor.getDocumentsAsList()) {
+                Map<String,Object> documentDescription = (Map<String,Object>)o;
+                File template = new File (dataDir,documentDescription.get("template").toString());
+                Map<String,Object> attributes = (Map<String,Object>)documentDescription.get("attributes");
+                generate(template,attributes,outputDir,workingDir, descriptor.getOutput(documentDescription));
+            }
         }
 
     }
