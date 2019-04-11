@@ -66,7 +66,7 @@ public class ProcedureGenerator {
             for (Object o: descriptor.getDocumentsAsList()) {
                 Map<String,Object> documentDescription = (Map<String,Object>)o;
                 File template = new File (dataDir,documentDescription.get("template").toString());
-                Map<String,Object> attributes = (Map<String,Object>)documentDescription.get("attributes");
+                Map<String,Object> attributes = descriptor.getAttributes(documentDescription,true);
                 generate(template,attributes,outputDir,workingDir, descriptor.getOutput(documentDescription));
             }
         }

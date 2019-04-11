@@ -105,12 +105,21 @@ public class ProceduresDescriptor {
 	}
 
 	public Map<String,Object> getAttributes (String document,boolean addMainAttributes) {
-		// TODO handle addMainAttributes
 		Map<String,Object> res =  (Map<String,Object>)((Map<String,Object>)getDocuments().get(document)).get("attributes");
 		if (addMainAttributes) {
 			res.putAll(getCommonAttributes());
 		}
 		return res;
 	}
+
+	public Map<String,Object> getAttributes (Map<String,Object> document,boolean addMainAttributes) {
+		Map<String,Object> res =  (Map<String,Object>)document.get("attributes");
+		if (addMainAttributes) {
+			res.putAll(getCommonAttributes());
+		}
+		return res;
+	}
+
+
 
 }
